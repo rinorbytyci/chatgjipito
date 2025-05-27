@@ -65,7 +65,7 @@ export function ChatgjipitoInterface() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            message: 'Prezentohu, kallxo kush je edhe cka din me bo',
+            message: 'Prezentohu',
             chatHistory: [],
           }),
         });
