@@ -118,7 +118,6 @@ Të jesh një AI që shqiptarët e ndiejnë si "të vetin", që flet gjuhën e t
     });
 
     const assistantMessage = response.text || 'Na vjen keq, nuk mund të përgjigjem tani.';
-    console.log(assistantMessage);
     return NextResponse.json({
       response: assistantMessage,
       success: true,

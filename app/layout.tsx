@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Chatgjipito - Asistent AI Shqiptar",
-  description: "Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Google Generative AI.",
+  title: "Chatgjipito - Asistent AI Shqiptar më i avancuar",
+  description: "Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Logjikonimia AI.",
   keywords: ["AI", "asistent", "shqiptar", "albania", "chatbot", "google", "generative"],
 };
 

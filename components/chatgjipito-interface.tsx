@@ -22,16 +22,10 @@ interface ChatMessage {
 }
 
 export function ChatgjipitoInterface() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: 'Përshëndetje! Unë jam Chatgjipito, asistenti juaj i AI. Jam këtu për t\'ju ndihmuar me çdo pyetje që mund të keni. Si mund t\'ju ndihmoj sot? 🇦🇱',
-      role: 'assistant',
-      timestamp: new Date(),
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -42,6 +36,62 @@ export function ChatgjipitoInterface() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Initialize with a greeting from the AI
+  useEffect(() => {
+    const initializeChat = async () => {
+      try {
+        setIsInitializing(true);
+        
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: 'Tungjatjeta',
+            chatHistory: [],
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          
+          const initialMessage: Message = {
+            id: '1',
+            content: data.response,
+            role: 'assistant',
+            timestamp: new Date(),
+          };
+
+          setMessages([initialMessage]);
+        } else {
+          // Fallback to hardcoded message if API fails
+          const fallbackMessage: Message = {
+            id: '1',
+            content: 'Përshëndetje! Unë jam Chatgjipito, asistenti juaj i AI. Jam këtu për t\'ju ndihmoj me çdo pyetje që mund të keni. Si mund t\'ju ndihmoj sot? 🇦🇱',
+            role: 'assistant',
+            timestamp: new Date(),
+          };
+          setMessages([fallbackMessage]);
+        }
+      } catch (error) {
+        console.error('Failed to initialize chat:', error);
+        // Fallback to hardcoded message if initialization fails
+        const fallbackMessage: Message = {
+          id: '1',
+          content: 'Përshëndetje! Unë jam Chatgjipito, asistenti juaj i AI. Jam këtu për t\'ju ndihmoj me çdo pyetje që mund të keni. Si mund t\'ju ndihmoj sot? 🇦🇱',
+          role: 'assistant',
+          timestamp: new Date(),
+        };
+        setMessages([fallbackMessage]);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+
+    initializeChat();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,7 +206,7 @@ export function ChatgjipitoInterface() {
                 <h1 className="text-xl font-bold bg-gradient-to-r from-albanian-gold to-yellow-300 bg-clip-text text-transparent">
                   Chatgjipito
                 </h1>
-                <p className="text-sm text-gray-400">Asistent AI Shqiptar</p>
+                <p className="text-sm text-gray-400">Asistent AI Shqiptar ma i Avancuar</p>
               </div>
             </div>
           </div>
