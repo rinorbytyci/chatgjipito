@@ -203,7 +203,7 @@ export function ChatgjipitoInterface() {
       {/* Albanian flag pattern background */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 w-screen h-screen bg-cover bg-center bg-no-repeat">
-        <img src="/assets/logo/flag.jpg" alt="Albanian Eagle Logo" className="h-full w-auto object-contain" />
+        <img src="/assets/logo/flag.jpg" alt="Albanian Eagle Logo" className="h-full w-full object-contain bg-cover" />
         </div>
       </div>
 
