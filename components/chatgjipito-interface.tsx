@@ -201,15 +201,8 @@ export function ChatgjipitoInterface() {
     <div className="min-h-screen bg-gradient-to-br from-albanian-black via-gray-900 to-albanian-eagle text-white">
       {/* Albanian flag pattern background */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-full h-1/2 bg-albanian-red"></div>
-        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-albanian-black"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="w-32 h-32 opacity-20">
-            {/* Simplified Albanian eagle silhouette */}
-            <svg viewBox="0 0 100 100" className="w-full h-full fill-albanian-gold">
-              <path d="M50 10 L60 25 L75 20 L65 35 L80 45 L65 50 L75 65 L60 60 L50 75 L40 60 L25 65 L35 50 L20 45 L35 35 L25 20 L40 25 Z" />
-            </svg>
-          </div>
+        <div className="absolute inset-0 w-screen h-screen bg-cover bg-center bg-no-repeat">
+          <img src="/assets/logo/flag.jpg" alt="Albanian Eagle Logo" className="h-full w-full object-cover" />
         </div>
       </div>
 
