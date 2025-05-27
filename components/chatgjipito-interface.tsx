@@ -35,6 +35,7 @@ export function ChatgjipitoInterface() {
   const [currentLoadingAvatar, setCurrentLoadingAvatar] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const hasInitializedRef = useRef(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -47,6 +48,10 @@ export function ChatgjipitoInterface() {
   // Initialize with a greeting from the AI
   useEffect(() => {
     const initializeChat = async () => {
+      // Prevent double initialization
+      if (hasInitializedRef.current) return;
+      hasInitializedRef.current = true;
+      
       try {
         setIsInitializing(true);
         
@@ -60,7 +65,7 @@ export function ChatgjipitoInterface() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            message: 'Tungjatjeta',
+            message: 'Prezentohu, kallxo kush je edhe cka din me bo',
             chatHistory: [],
           }),
         });
