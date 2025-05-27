@@ -248,24 +248,21 @@ export function ChatgjipitoInterface() {
                       fallback={message.role === 'user' ? 'U' : 'AI'}
                       src={message.role === 'assistant' ? message.avatarSrc : undefined}
                     />
-                    <div className="flex-1">
-                      <ChatBubbleMessage variant={message.role === 'user' ? 'sent' : 'received'}>
-                        {message.content}
-                      </ChatBubbleMessage>
-                      {message.role === 'assistant' && (
-                        <div className="flex items-center gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 hover:bg-albanian-gold/10"
-                            onClick={() => copyToClipboard(message.content)}
-                          >
-                            <Copy className="w-4 h-4" />
-                          </Button>
-                         
-                        </div>
-                      )}
-                    </div>
+                    <ChatBubbleMessage variant={message.role === 'user' ? 'sent' : 'received'}>
+                      {message.content}
+                    </ChatBubbleMessage>
+                    {message.role === 'assistant' && (
+                      <div className="flex items-center gap-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 hover:bg-albanian-gold/10"
+                          onClick={() => copyToClipboard(message.content)}
+                        >
+                          <Copy className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
                   </ChatBubble>
                 </motion.div>
               ))}
