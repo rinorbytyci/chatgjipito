@@ -121,7 +121,7 @@ Të jesh një AI që shqiptarët e ndiejnë si "të vetin", që flet gjuhën e t
     });
     const assistantMessage = response.text || 'Na vjen keq, nuk mund të përgjigjem tani.';
     return NextResponse.json({
-      response: assistantMessage.replace("Model:", ""),
+      response: assistantMessage.replace("Model:", "").replace("model:", ""),
       success: true,
     });
 
