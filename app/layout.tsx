@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: "Chatgjipito - Asistent AI Shqiptar më i avancuar",
   description: "Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Logjikonimia AI.",
   keywords: ["AI", "asistent", "shqiptar", "albania", "chatbot", "google", "generative"],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 export default function RootLayout({

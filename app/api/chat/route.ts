@@ -5,15 +5,13 @@ const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, history = [] } = await request.json();
-
+    const { message, chatHistory = [] } = await request.json();
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { error: 'Gemini API key is not configured' },
         { status: 500 }
       );
     }
-    console.log(process.env.GEMINI_API_KEY);
 
     if (!message) {
       return NextResponse.json(
@@ -24,12 +22,11 @@ export async function POST(request: NextRequest) {
 
     // Build conversation history for context
     let conversationContext = '';
-    if (history.length > 0) {
-      conversationContext = history
+    if (chatHistory.length > 0) {
+      conversationContext = chatHistory
         .map((msg: { role: string; content: string }) => `${msg.role}: ${msg.content}`)
         .join('\n') + '\n';
     }
-
     const fullPrompt = conversationContext + `user: ${message}`;
 
     // Use the new API structure
@@ -122,10 +119,9 @@ Të jesh një AI që shqiptarët e ndiejnë si "të vetin", që flet gjuhën e t
         `
       },
     });
-
     const assistantMessage = response.text || 'Na vjen keq, nuk mund të përgjigjem tani.';
     return NextResponse.json({
-      response: assistantMessage,
+      response: assistantMessage.replace("Model:", ""),
       success: true,
     });
 

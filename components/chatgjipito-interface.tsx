@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Copy, RotateCcw } from "lucide-react";
+import { Send, Copy, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from "@/components/ui/chat-bubble";
@@ -19,7 +19,7 @@ interface Message {
 
 interface ChatMessage {
   role: 'user' | 'model';
-  parts: string;
+  content: string;
 }
 
 // Helper function to get a random avatar
@@ -134,7 +134,7 @@ export function ChatgjipitoInterface() {
       // Convert messages to ChatMessage format for API
       const chatHistory: ChatMessage[] = messages.map(msg => ({
         role: msg.role === 'user' ? 'user' : 'model',
-        parts: msg.content,
+        content: msg.content,
       }));
 
       // Call the API endpoint
@@ -268,13 +268,7 @@ export function ChatgjipitoInterface() {
                           >
                             <Copy className="w-4 h-4" />
                           </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 hover:bg-albanian-gold/10"
-                          >
-                            <RotateCcw className="w-4 h-4" />
-                          </Button>
+                         
                         </div>
                       )}
                     </div>
@@ -318,8 +312,9 @@ export function ChatgjipitoInterface() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Shkruani mesazhin tuaj këtu... (Shtyp Enter për të dërguar)"
-                  className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 resize-none pr-12"
+                  className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 resize-none pr-12 text-base"
                   disabled={isLoading}
+                  style={{ fontSize: '16px' }}
                 />
                 <Button
                   type="submit"
