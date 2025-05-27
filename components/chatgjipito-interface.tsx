@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Copy, RotateCcw, Heart } from "lucide-react";
+import { Send, Bot, User, Copy, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from "@/components/ui/chat-bubble";
@@ -32,6 +32,7 @@ export function ChatgjipitoInterface() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
+  const [currentLoadingAvatar, setCurrentLoadingAvatar] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -48,6 +49,10 @@ export function ChatgjipitoInterface() {
     const initializeChat = async () => {
       try {
         setIsInitializing(true);
+        
+        // Generate a random avatar for the initial message
+        const initialAvatar = getRandomAvatar();
+        setCurrentLoadingAvatar(initialAvatar);
         
         const response = await fetch('/api/chat', {
           method: 'POST',
@@ -68,7 +73,7 @@ export function ChatgjipitoInterface() {
             content: data.response,
             role: 'assistant',
             timestamp: new Date(),
-            avatarSrc: getRandomAvatar(),
+            avatarSrc: initialAvatar,
           };
 
           setMessages([initialMessage]);
@@ -79,19 +84,23 @@ export function ChatgjipitoInterface() {
             content: 'Përshëndetje! Unë jam Chatgjipito, asistenti juaj i AI. Jam këtu për t\'ju ndihmoj me çdo pyetje që mund të keni. Si mund t\'ju ndihmoj sot? 🇦🇱',
             role: 'assistant',
             timestamp: new Date(),
-            avatarSrc: getRandomAvatar(),
+            avatarSrc: initialAvatar, // Use the same avatar that was generated earlier
           };
           setMessages([fallbackMessage]);
         }
       } catch (error) {
         console.error('Failed to initialize chat:', error);
         // Fallback to hardcoded message if initialization fails
+        // If initialAvatar wasn't set due to error, generate one now
+        const avatarToUse = currentLoadingAvatar || getRandomAvatar();
+        setCurrentLoadingAvatar(avatarToUse);
+        
         const fallbackMessage: Message = {
           id: '1',
           content: 'Përshëndetje! Unë jam Chatgjipito, asistenti juaj i AI. Jam këtu për t\'ju ndihmoj me çdo pyetje që mund të keni. Si mund t\'ju ndihmoj sot? 🇦🇱',
           role: 'assistant',
           timestamp: new Date(),
-          avatarSrc: getRandomAvatar(),
+          avatarSrc: avatarToUse,
         };
         setMessages([fallbackMessage]);
       } finally {
@@ -113,6 +122,10 @@ export function ChatgjipitoInterface() {
       timestamp: new Date(),
     };
 
+    // Generate a random avatar for this response cycle and store it
+    const responseAvatar = getRandomAvatar();
+    setCurrentLoadingAvatar(responseAvatar);
+    
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
@@ -148,7 +161,7 @@ export function ChatgjipitoInterface() {
         content: data.response,
         role: 'assistant',
         timestamp: new Date(),
-        avatarSrc: getRandomAvatar(),
+        avatarSrc: currentLoadingAvatar, // Use the same avatar that was used during loading
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -161,7 +174,7 @@ export function ChatgjipitoInterface() {
           : 'Më vjen keq, pata një problem duke procesuar mesazhin tuaj. Ju lutem provoni përsëri.',
         role: 'assistant',
         timestamp: new Date(),
-        avatarSrc: getRandomAvatar(),
+        avatarSrc: currentLoadingAvatar, // Use the same avatar that was used during loading
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
@@ -210,8 +223,8 @@ export function ChatgjipitoInterface() {
         >
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-albanian-red to-albanian-gold rounded-full flex items-center justify-center">
-                <Heart className="w-5 h-5 text-white" />
+              <div className="h-10 w-auto bg-gradient-to-br from-albanian-red to-albanian-gold flex items-center justify-center p-0.5 overflow-hidden">
+                <img src="/assets/avatars/logo.png" alt="Albanian Eagle Logo" className="h-full w-auto object-contain" />
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-albanian-gold to-yellow-300 bg-clip-text text-transparent">
@@ -278,7 +291,7 @@ export function ChatgjipitoInterface() {
                   <ChatBubble variant="received">
                     <ChatBubbleAvatar 
                       fallback="AI" 
-                      src={getRandomAvatar()}
+                      src={currentLoadingAvatar}
                     />
                     <ChatBubbleMessage isLoading />
                   </ChatBubble>
