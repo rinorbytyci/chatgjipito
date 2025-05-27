@@ -17,6 +17,7 @@ Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Google 
 - 🎨 **Modern UI**: Built with Tailwind CSS and Framer Motion
 - 📱 **Responsive Design**: Works perfectly on desktop and mobile
 - 🌟 **Custom Prompts**: Configurable system prompts in Albanian
+- 🖼️ **Random Avatars**: Each AI response uses a different Albanian-themed avatar
 - ⚡ **Fast Performance**: Built with Next.js 14 and TypeScript
 
 ## 🚀 Si të filloni / Getting Started
@@ -51,12 +52,23 @@ Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Google 
    CUSTOM_PROMPT=Ti je Chatgjipito, një asistent i zgjuar AI që flet shqip dhe ndihmon përdoruesit me pyetjet e tyre. Ji miqësor, i dobishëm dhe krenar për kulturën shqiptare.
    ```
 
-4. **Startoni aplikacionin / Start the application**
+4. **Shtoni avatarët (opsionale) / Add avatar images (optional)**
+   Vendosni 6 imazhe në dosjen `public/assets/avatars/` me emrat:
+   ```
+   1.jpg
+   2.jpg
+   3.jpg
+   4.jpg
+   5.jpg
+   6.jpg
+   ```
+
+5. **Startoni aplikacionin / Start the application**
    ```bash
    npm run dev
    ```
 
-5. **Hapni shfletuesin / Open your browser**
+6. **Hapni shfletuesin / Open your browser**
    
    Shkoni te [http://localhost:3000](http://localhost:3000)
 
@@ -76,6 +88,13 @@ Mund të personalizoni promptin e sistemit duke modifikuar variablin `CUSTOM_PRO
 CUSTOM_PROMPT=Këtu shkruani promptin tuaj të personalizuar...
 ```
 
+### Avatar Images
+
+Mund të personalizoni avatarët duke zëvendësuar imazhet në `public/assets/avatars/`:
+- Përdorni imazhe katrore (1:1) të madhësisë të paktën 256x256px
+- Emërtoni ato nga 1.jpg deri në 6.jpg
+- Imazhe me tematikë shqiptare do të përmirësojnë përvojën
+
 ## 🏗️ Arkitektura / Architecture
 
 ```
@@ -91,7 +110,9 @@ chatgjipito/
 ├── lib/                  # Utility libraries
 │   ├── google-ai.ts     # Google AI service
 │   └── utils.ts         # General utilities
-└── public/              # Static assets
+├── public/               # Static assets
+│   └── assets/
+│       └── avatars/     # AI avatar images (1.jpg through 6.jpg)
 ```
 
 ## 🎨 Tema Shqiptare / Albanian Theme
@@ -102,6 +123,7 @@ Aplikacioni përdor ngjyrat dhe motivet shqiptare:
 - **⚫ E zezë**: Sfondi (Albanian Black - #0f0f0f)  
 - **🟡 Ari**: Theksimet (Albanian Gold - #fbbf24)
 - **🦅 Shqiponja**: Motivi dekorativ
+- **🖼️ Avatarët**: Çdo përgjigje e AI-së përdor një avatar të ndryshëm me temë shqiptare
 
 ## 📱 Përdorimi / Usage
 

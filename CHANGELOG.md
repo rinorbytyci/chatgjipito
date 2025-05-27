@@ -1,5 +1,17 @@
 # Changelog - Chatgjipito
 
+## [1.2.0] - Random Avatar Update
+
+### ✨ Added
+- **Random Avatar System**: Each AI response now uses a different random avatar
+- **Avatar Directory**: Created `public/assets/avatars/` for user avatar images
+- **Dynamic Image Loading**: Avatar selection handled by `getRandomAvatar()` helper
+
+### 🔧 Improved
+- **Visual Distinctiveness**: Each message from AI has its own visual identity
+- **Cultural Connection**: Added support for Albanian-themed avatars
+- **Customizability**: Users can replace default avatars with their own images
+
 ## [1.1.0] - API Integration Update
 
 ### 🔄 Changed

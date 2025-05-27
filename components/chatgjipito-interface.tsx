@@ -14,12 +14,18 @@ interface Message {
   content: string;
   role: 'user' | 'assistant';
   timestamp: Date;
+  avatarSrc?: string; // Optional path to avatar image
 }
 
 interface ChatMessage {
   role: 'user' | 'model';
   parts: string;
 }
+
+// Helper function to get a random avatar
+const getRandomAvatar = () => {
+  return `/assets/avatars/${Math.floor(Math.random() * 6) + 1}.png`;
+};
 
 export function ChatgjipitoInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -62,6 +68,7 @@ export function ChatgjipitoInterface() {
             content: data.response,
             role: 'assistant',
             timestamp: new Date(),
+            avatarSrc: getRandomAvatar(),
           };
 
           setMessages([initialMessage]);
@@ -72,6 +79,7 @@ export function ChatgjipitoInterface() {
             content: 'Përshëndetje! Unë jam Chatgjipito, asistenti juaj i AI. Jam këtu për t\'ju ndihmoj me çdo pyetje që mund të keni. Si mund t\'ju ndihmoj sot? 🇦🇱',
             role: 'assistant',
             timestamp: new Date(),
+            avatarSrc: getRandomAvatar(),
           };
           setMessages([fallbackMessage]);
         }
@@ -83,6 +91,7 @@ export function ChatgjipitoInterface() {
           content: 'Përshëndetje! Unë jam Chatgjipito, asistenti juaj i AI. Jam këtu për t\'ju ndihmoj me çdo pyetje që mund të keni. Si mund t\'ju ndihmoj sot? 🇦🇱',
           role: 'assistant',
           timestamp: new Date(),
+          avatarSrc: getRandomAvatar(),
         };
         setMessages([fallbackMessage]);
       } finally {
@@ -139,6 +148,7 @@ export function ChatgjipitoInterface() {
         content: data.response,
         role: 'assistant',
         timestamp: new Date(),
+        avatarSrc: getRandomAvatar(),
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -151,6 +161,7 @@ export function ChatgjipitoInterface() {
           : 'Më vjen keq, pata një problem duke procesuar mesazhin tuaj. Ju lutem provoni përsëri.',
         role: 'assistant',
         timestamp: new Date(),
+        avatarSrc: getRandomAvatar(),
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
@@ -228,6 +239,7 @@ export function ChatgjipitoInterface() {
                     <ChatBubbleAvatar
                       variant={message.role === 'user' ? 'sent' : 'received'}
                       fallback={message.role === 'user' ? 'U' : 'AI'}
+                      src={message.role === 'assistant' ? message.avatarSrc : undefined}
                     />
                     <div className="flex-1">
                       <ChatBubbleMessage variant={message.role === 'user' ? 'sent' : 'received'}>
@@ -264,7 +276,10 @@ export function ChatgjipitoInterface() {
                   className="group"
                 >
                   <ChatBubble variant="received">
-                    <ChatBubbleAvatar fallback="AI" />
+                    <ChatBubbleAvatar 
+                      fallback="AI" 
+                      src={getRandomAvatar()}
+                    />
                     <ChatBubbleMessage isLoading />
                   </ChatBubble>
                 </motion.div>
