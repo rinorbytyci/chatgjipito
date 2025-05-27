@@ -30,7 +30,7 @@ const getRandomAvatar = () => {
 export function ChatgjipitoInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isInitializing, setIsInitializing] = useState(true);
   const [currentLoadingAvatar, setCurrentLoadingAvatar] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -88,6 +88,7 @@ export function ChatgjipitoInterface() {
           };
           setMessages([fallbackMessage]);
         }
+        setIsLoading(false);
       } catch (error) {
         console.error('Failed to initialize chat:', error);
         // Fallback to hardcoded message if initialization fails
@@ -202,7 +203,7 @@ export function ChatgjipitoInterface() {
       {/* Albanian flag pattern background */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 w-screen h-screen bg-cover bg-center bg-no-repeat">
-          <img src="/assets/logo/flag.jpg" alt="Albanian Eagle Logo" className="h-full w-full object-cover" />
+        <img src="/assets/logo/flag.jpg" alt="Albanian Eagle Logo" className="h-full w-auto object-contain" />
         </div>
       </div>
 
