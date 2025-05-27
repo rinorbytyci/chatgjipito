@@ -1,6 +1,6 @@
 # Chatgjipito 🇦🇱
 
-Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Google Generative AI.
+Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Google Generative AI dhe ideuar nga Logjikonomia
 
 **An Albanian-themed ChatGPT-like interface using Google Generative AI**
 
@@ -49,7 +49,6 @@ Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Google 
    Hapni `.env.local` dhe shtoni:
    ```env
    GOOGLE_AI_API_KEY=your_google_ai_api_key_here
-   CUSTOM_PROMPT=Ti je Chatgjipito, një asistent i zgjuar AI që flet shqip dhe ndihmon përdoruesit me pyetjet e tyre. Ji miqësor, i dobishëm dhe krenar për kulturën shqiptare.
    ```
 
 4. **Shtoni avatarët (opsionale) / Add avatar images (optional)**
@@ -79,14 +78,6 @@ Një asistent AI që flet shqip dhe ndihmon me pyetjet tuaja. Bazuar në Google 
 1. Shkoni te [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Krijoni një API key të ri
 3. Kopjoni dhe vendosni në `.env.local`
-
-### Custom Prompt
-
-Mund të personalizoni promptin e sistemit duke modifikuar variablin `CUSTOM_PROMPT` në `.env.local`:
-
-```env
-CUSTOM_PROMPT=Këtu shkruani promptin tuaj të personalizuar...
-```
 
 ### Avatar Images
 
