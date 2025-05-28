@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Copy, RotateCcw } from "lucide-react";
+import { Send, Copy, RotateCcw, Github } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from "@/components/ui/chat-bubble";
 import { ChatInput } from "@/components/ui/chat-input";
 // Removed direct Google AI import - now using API endpoint
 import { cn } from "@/lib/utils";
+import Script from 'next/script';
 
 interface Message {
   id: string;
@@ -204,135 +205,161 @@ export function ChatgjipitoInterface() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-albanian-black via-gray-900 to-albanian-eagle text-white">
-      {/* Albanian flag pattern background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 w-screen h-screen bg-cover bg-center bg-no-repeat">
-        <img src="/assets/logo/flag.jpg" alt="Albanian Eagle Logo" className="h-full w-full object-contain bg-cover" />
+    <>
+      {/* Google Analytics Script */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-C005HCPRC0"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-C005HCPRC0');
+        `}
+      </Script>
+      
+      <div className="min-h-screen bg-gradient-to-br from-albanian-black via-gray-900 to-albanian-eagle text-white">
+        {/* Albanian flag pattern background */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 w-screen h-screen bg-cover bg-center bg-no-repeat">
+          <img src="/assets/logo/flag.jpg" alt="Albanian Eagle Logo" className="h-full w-full object-contain bg-cover" />
+          </div>
         </div>
-      </div>
 
-      <div className="relative z-10 flex flex-col h-screen">
-        {/* Header */}
-        <motion.header 
-          className="border-b border-albanian-gold/20 bg-black/50 backdrop-blur-sm"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-auto bg-gradient-to-br from-albanian-red to-albanian-gold flex items-center justify-center p-0.5 overflow-hidden">
-                <img src="/assets/avatars/logo.png" alt="Albanian Eagle Logo" className="h-full w-auto object-contain" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-albanian-gold to-yellow-300 bg-clip-text text-transparent">
-                  Chatgjipito
-                </h1>
-                <p className="text-sm text-gray-400">Asistent AI Shqiptar ma i Avancuar</p>
+        <div className="relative z-10 flex flex-col h-screen">
+          {/* Header */}
+          <motion.header 
+            className="border-b border-albanian-gold/20 bg-black/50 backdrop-blur-sm"
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-auto bg-gradient-to-br from-albanian-red to-albanian-gold flex items-center justify-center p-0.5 overflow-hidden">
+                    <img src="/assets/avatars/logo.png" alt="Albanian Eagle Logo" className="h-full w-auto object-contain" />
+                  </div>
+                  <div>
+                    <h1 className="text-xl font-bold bg-gradient-to-r from-albanian-gold to-yellow-300 bg-clip-text text-transparent">
+                      Chatgjipito
+                    </h1>
+                    <p className="text-sm text-gray-400">Asistent AI Shqiptar ma i Avancuar</p>
+                  </div>
+                </div>
+                <a 
+                  href="https://github.com/rinorbytyci/chatgjipito" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                >
+                  <Github className="h-5 w-5 text-gray-300" />
+                </a>
               </div>
             </div>
-          </div>
-        </motion.header>
+          </motion.header>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-6">
-          <div className="container mx-auto max-w-4xl space-y-6">
-            <AnimatePresence>
-              {messages.map((message, index) => (
-                <motion.div
-                  key={message.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="group"
-                >
-                  <ChatBubble variant={message.role === 'user' ? 'sent' : 'received'}>
-                    <ChatBubbleAvatar
-                      variant={message.role === 'user' ? 'sent' : 'received'}
-                      fallback={message.role === 'user' ? 'U' : 'AI'}
-                      src={message.role === 'assistant' ? message.avatarSrc : undefined}
-                    />
-                    <ChatBubbleMessage variant={message.role === 'user' ? 'sent' : 'received'}>
-                      {message.content}
-                    </ChatBubbleMessage>
-                    {message.role === 'assistant' && (
-                      <div className="flex items-center gap-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-albanian-gold/10"
-                          onClick={() => copyToClipboard(message.content)}
-                        >
-                          <Copy className="w-4 h-4" />
-                        </Button>
-                      </div>
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto px-4 py-6">
+            <div className="container mx-auto max-w-4xl space-y-6">
+              <AnimatePresence>
+                {messages.map((message, index) => (
+                  <motion.div
+                    key={message.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="group"
+                  >
+                    <ChatBubble variant={message.role === 'user' ? 'sent' : 'received'}>
+                      <ChatBubbleAvatar
+                        variant={message.role === 'user' ? 'sent' : 'received'}
+                        fallback={message.role === 'user' ? 'U' : 'AI'}
+                        src={message.role === 'assistant' ? message.avatarSrc : undefined}
+                      />
+                      <ChatBubbleMessage variant={message.role === 'user' ? 'sent' : 'received'}>
+                        {message.content}
+                      </ChatBubbleMessage>
+                      {message.role === 'assistant' && (
+                        <div className="flex items-center gap-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 hover:bg-albanian-gold/10"
+                            onClick={() => copyToClipboard(message.content)}
+                          >
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </ChatBubble>
+                  </motion.div>
+                ))}
+                
+                {isLoading && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="group"
+                  >
+                    <ChatBubble variant="received">
+                      <ChatBubbleAvatar 
+                        fallback="AI" 
+                        src={currentLoadingAvatar}
+                      />
+                      <ChatBubbleMessage isLoading />
+                    </ChatBubble>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+
+          {/* Input */}
+          <motion.div 
+            className="border-t border-albanian-gold/20 bg-black/50 backdrop-blur-sm"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="container mx-auto px-4 py-4 max-w-4xl">
+              <form onSubmit={handleSubmit} className="relative">
+                <div className="relative rounded-lg border border-albanian-gold/30 bg-gray-900/50 backdrop-blur-sm focus-within:ring-2 focus-within:ring-albanian-gold/50 focus-within:border-albanian-gold/50 transition-all">
+                  <ChatInput
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Shkruani mesazhin tuaj këtu... (Shtyp Enter për të dërguar)"
+                    className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 resize-none pr-12 text-base"
+                    disabled={isLoading}
+                    style={{ fontSize: '16px' }}
+                  />
+                  <Button
+                    type="submit"
+                    size="icon"
+                    disabled={!input.trim() || isLoading}
+                    className={cn(
+                      "absolute right-2 bottom-2 h-8 w-8 transition-all",
+                      input.trim() && !isLoading
+                        ? "bg-albanian-red hover:bg-albanian-red/90 text-white border border-albanian-gold/30"
+                        : "bg-gray-700 text-gray-400"
                     )}
-                  </ChatBubble>
-                </motion.div>
-              ))}
-              
-              {isLoading && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="group"
-                >
-                  <ChatBubble variant="received">
-                    <ChatBubbleAvatar 
-                      fallback="AI" 
-                      src={currentLoadingAvatar}
-                    />
-                    <ChatBubbleMessage isLoading />
-                  </ChatBubble>
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <div ref={messagesEndRef} />
-          </div>
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+                <p className="text-xs text-gray-500 mt-2 text-center">
+                  Chatgjipito mund të bëjë gabime. Ju lutem verifikoni informacionin e rëndësishëm.
+                </p>
+              </form>
+            </div>
+          </motion.div>
         </div>
-
-        {/* Input */}
-        <motion.div 
-          className="border-t border-albanian-gold/20 bg-black/50 backdrop-blur-sm"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="container mx-auto px-4 py-4 max-w-4xl">
-            <form onSubmit={handleSubmit} className="relative">
-              <div className="relative rounded-lg border border-albanian-gold/30 bg-gray-900/50 backdrop-blur-sm focus-within:ring-2 focus-within:ring-albanian-gold/50 focus-within:border-albanian-gold/50 transition-all">
-                <ChatInput
-                  ref={inputRef}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Shkruani mesazhin tuaj këtu... (Shtyp Enter për të dërguar)"
-                  className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 resize-none pr-12 text-base"
-                  disabled={isLoading}
-                  style={{ fontSize: '16px' }}
-                />
-                <Button
-                  type="submit"
-                  size="icon"
-                  disabled={!input.trim() || isLoading}
-                  className={cn(
-                    "absolute right-2 bottom-2 h-8 w-8 transition-all",
-                    input.trim() && !isLoading
-                      ? "bg-albanian-red hover:bg-albanian-red/90 text-white border border-albanian-gold/30"
-                      : "bg-gray-700 text-gray-400"
-                  )}
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
-              </div>
-              <p className="text-xs text-gray-500 mt-2 text-center">
-                Chatgjipito mund të bëjë gabime. Ju lutem verifikoni informacionin e rëndësishëm.
-              </p>
-            </form>
-          </div>
-        </motion.div>
       </div>
-    </div>
+    </>
   );
 } 
